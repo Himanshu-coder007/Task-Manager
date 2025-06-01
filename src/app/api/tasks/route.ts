@@ -7,7 +7,8 @@ export async function GET() {
     const collection = await getTaskCollection();
     const tasks = await collection.find().sort({ createdAt: -1 }).toArray();
     return NextResponse.json(tasks);
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to fetch tasks:', err);
     return NextResponse.json(
       { error: 'Failed to fetch tasks' },
       { status: 500 }
@@ -37,7 +38,8 @@ export async function POST(request: Request) {
 
     const result = await collection.insertOne(newTask);
     return NextResponse.json({ ...newTask, _id: result.insertedId });
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to create task:', err);
     return NextResponse.json(
       { error: 'Failed to create task' },
       { status: 500 }

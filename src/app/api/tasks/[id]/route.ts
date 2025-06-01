@@ -13,7 +13,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 
     return NextResponse.json(task);
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to fetch task:', err);
     return NextResponse.json(
       { error: 'Failed to fetch task' },
       { status: 500 }
@@ -27,7 +28,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { description, completed } = await request.json();
     const collection = await getTaskCollection();
 
-    const updateData: any = { updatedAt: new Date() };
+    const updateData: { 
+      updatedAt: Date;
+      description?: string;
+      completed?: boolean;
+    } = { updatedAt: new Date() };
+
     if (description !== undefined) updateData.description = description;
     if (completed !== undefined) updateData.completed = completed;
 
@@ -42,7 +48,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
     const updatedTask = await collection.findOne({ _id: new ObjectId(params.id) });
     return NextResponse.json(updatedTask);
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to update task:', err);
     return NextResponse.json(
       { error: 'Failed to update task' },
       { status: 500 }
@@ -61,7 +68,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     }
 
     return NextResponse.json({ message: 'Task deleted successfully' });
-  } catch (error) {
+  } catch (err) {
+    console.error('Failed to delete task:', err);
     return NextResponse.json(
       { error: 'Failed to delete task' },
       { status: 500 }
