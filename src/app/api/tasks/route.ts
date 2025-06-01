@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getTaskCollection } from '@/models/Task';
 
 // GET all tasks
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const collection = await getTaskCollection();
     const tasks = await collection.find().sort({ createdAt: -1 }).toArray();
