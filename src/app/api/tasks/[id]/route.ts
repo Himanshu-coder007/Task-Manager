@@ -2,14 +2,10 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getTaskCollection } from '@/models/Task';
 
-interface Params {
-  id: string;
-}
-
 // GET a single task
 export async function GET(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: { id: string } }
 ) {
   try {
     const collection = await getTaskCollection();
@@ -32,7 +28,7 @@ export async function GET(
 // PUT update a task
 export async function PUT(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { description, completed } = await request.json();
@@ -70,7 +66,7 @@ export async function PUT(
 // DELETE a task
 export async function DELETE(
   request: Request,
-  { params }: { params: Params }
+  { params }: { params: { id: string } }
 ) {
   try {
     const collection = await getTaskCollection();
