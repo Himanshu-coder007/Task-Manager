@@ -65,7 +65,6 @@ export async function PUT(
 
 // DELETE a task
 export async function DELETE(
-  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
